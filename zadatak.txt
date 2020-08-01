@@ -1,0 +1,11 @@
+-Imao bih RFID modul koji oèitani tag, preko serijskog porta, šalje C# aplikaciji koja provjerava bazu podataka i na osnovu toga dodjeljuje/odbija pristup sistemu. U bazi bi se èuvalo još i ime vlasnika kartice, istorija prijava, itd.
+
+-Imao bih ultrasonièni senzor, montiran na servo motor koji bi se okretao po 90° u oba smjera u odnosu na poèetni položaj, pri èemu bi senzor svoja oèitavanja slao preko serijskog porta te bi se ona vizuelno predstavljala u aplikaciji, tako da to sve zajedno izgleda kao radarski sistem.
+
+-Rad servo motora i ultrasoniènog senzora mogao bi se pauzirati odnosno pokrenuti pritiskom na taster ili iz aplikacije.
+
+-Iz aplikacije bi bilo moguæe slati poruke na Arduino i prikazivati ih na LCD ekranu (koristio bih I2C kontroler), i generalno za svaku akciju bi se prikazivalo odgovarajuæe obavještejnje.
+
+-Postojale bi dodatne LED diode i buzzer koji bi bili indikatori stanja i dogaðaja u sistemu.
+
+-Zatvaranjem aplikacije "radar" prestaje sa radom i sistem se postavlja u standby režim, a prekidanjem USB veze zatvara se aplikacija.
