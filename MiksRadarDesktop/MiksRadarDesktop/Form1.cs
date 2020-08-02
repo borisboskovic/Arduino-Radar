@@ -27,6 +27,16 @@ namespace MiksRadarDesktop
             korisnici = db.Korisniks.ToList();
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams createParams = base.CreateParams;
+                createParams.ExStyle |= 0x02000000;
+                return createParams;
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             consoleBox.AppendText(DateTime.Now + " -- Program pokrenut.\n");

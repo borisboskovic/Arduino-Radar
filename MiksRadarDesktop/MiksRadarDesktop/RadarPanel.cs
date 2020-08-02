@@ -13,7 +13,8 @@ namespace MiksRadarDesktop
     class RadarPanel : Panel
     {
         double range = 1.0;
-        private Color gridColor = Color.FromArgb(0, 211, 15);
+        private Color gridColor = Color.FromArgb(255, 0, 211, 15);
+        private Color objectColor = Color.FromArgb(255, 230, 0, 20);
         private int[] angles = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, };
         private int[] distances = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, };
 
@@ -57,7 +58,7 @@ namespace MiksRadarDesktop
             DrawLabel(g, 3);
             DrawLabel(g, 4);
 
-            DrawRadarStripe(g, 10, gridColor);
+            DrawRadar(g);
         }
 
         private void DrawAngledLine(Graphics g, Pen pen, Point start, int angle, int length)
@@ -79,29 +80,31 @@ namespace MiksRadarDesktop
             g.DrawString(str, font, brush, new PointF(x, 492));
         }
 
-        private void DrawRadarStripe(Graphics g, int angle, Color color)
+        private void DrawRadar(Graphics g)
         {
-            SolidBrush brush = new SolidBrush(color);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -1 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -3 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -5 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -7 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -9 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -11 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -13 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -15 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -17 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -19 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -21 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -23 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -25 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -27 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -29 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -31 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -33 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -35 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -37 + 0.125f, -1.75f);
-            g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -39 + 0.125f, -1.75f);
+            for (int i = 0; i < 20; i++)
+            {
+                if (distances[i] != -1)
+                    DrawRadarStripe(g, -angles[i], distances[i], i);
+            }
+        }
+
+        private void DrawRadarStripe(Graphics g, int angle, int distance, int index)
+        {
+            Color c1 = Color.FromArgb(255 - 12 * index, gridColor.R, gridColor.G, gridColor.B);
+            Color c2 = Color.FromArgb(255 - 12 * index, objectColor.R, objectColor.G, objectColor.B);
+            SolidBrush brushMain = new SolidBrush(c1);
+            SolidBrush brushObject = new SolidBrush(c2);
+            if (distance >= 2 && distance <= range * 100)
+            {
+                g.FillPie(brushObject, new Rectangle(0, 0, 1024, 1024), angle - 1 + 0.125f, -1.75f);
+                double ratio = distance / 100.0;
+                int a = (int)(1024 * ratio);
+                int d = (1024 - a) / 2;
+                g.FillPie(brushMain, new Rectangle(d, d, a, a), angle - 1 + 0.125f, -1.75f);
+            }
+            else
+                g.FillPie(brushMain, new Rectangle(0, 0, 1024, 1024), angle - 1 + 0.125f, -1.75f);
         }
 
         public void AddMeasurement(string str)
@@ -117,6 +120,8 @@ namespace MiksRadarDesktop
                 angles[0] = angle;
                 distances[0] = distance;
             }
+            angles[0] = angle;
+            distances[0] = distance;
         }
     }
 }
