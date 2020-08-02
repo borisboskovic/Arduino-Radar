@@ -39,19 +39,21 @@ void setup()
   servo.attach(SERVO_PIN);
   servo.write(servoAngle);
 
-  displayString="Ready to connect";
+  displayString = "Ready to connect";
 }
 
 void loop()
 {
-  if (state == "stop")
+  if (displayString != "")
   {
-    if(displayString!=""){
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print(displayString);
-      displayString="";
-    }
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(displayString);
+    displayString = "";
+  }
+
+  if (state == "wait")
+  {
     String tag = rfid.readTag();
     if (tag != "None")
       Serial.println(tag);
@@ -78,26 +80,28 @@ void loop()
   }
 }
 
-
 void executeCommand()
 {
-  //Napisi kao SWITCH
-  if(inputString.startsWith("CON")){
-    inputString=inputString.substring(3, inputString.length());
+  if (inputString.startsWith("CON"))
+  {
+    inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print(inputString);
-    state = "play";
-  }else if(inputString.startsWith("MSG")){
-    inputString=inputString.substring(3, inputString.length());
+    state = "wait";
+  }
+  else if (inputString.startsWith("MSG"))
+  {
+    inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print(inputString);
-    state = "play";
-  }else if(inputString.startsWith("DSC")){
-    inputString=inputString.substring(3, inputString.length());
+  }
+  else if (inputString.startsWith("DSC"))
+  {
+    inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print(inputString);
     state = "stop";
-    displayString="Ready to connect";
+    displayString = "Ready to connect";
     delay(1000);
   }
 }

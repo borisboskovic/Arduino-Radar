@@ -44,6 +44,8 @@ namespace MiksRadarDesktop
                 cmbPorts.Enabled = false;
                 port.Write("CONConnected: " + portName + "#");
                 isPortOpen = true;
+                Thread listeningThread = new Thread(Listen);
+                listeningThread.Start();
             }
             else
             {
@@ -69,6 +71,30 @@ namespace MiksRadarDesktop
 
                 }
                 catch (InvalidOperationException) { }
+            }
+            Environment.Exit(Environment.ExitCode);
+        }
+
+        public void ExecuteCommand(string cmd)
+        {
+            consoleBox.AppendText(cmd + "\n");
+        }
+
+        public void Listen()
+        {
+            while (port.IsOpen)
+            {
+                try
+                {
+                    string msg = port.ReadLine();
+                    Invoke(new MethodInvoker(
+                        delegate
+                        {
+                            ExecuteCommand(msg);
+                        }
+                        ));
+                }
+                catch { }
             }
         }
     }
