@@ -30,8 +30,9 @@ bool stringComplete = false;
 String inputString = "";
 String displayString = "";
 
-long timePreviousRfid=0;
-long timePreviousLed=0;
+long timePreviousRfid = 0;
+long timePreviousLed = 0;
+long timePreviousServo = 0;
 
 void setup()
 {
@@ -68,18 +69,47 @@ void loop()
   {
     long currentTime = millis();
     String tag = rfid.readTag();
-    if(tag != "None"){
-      if(currentTime - timePreviousRfid > 1000){
-        Serial.println("RFD"+tag);
+    if (tag != "None")
+    {
+      if (currentTime - timePreviousRfid > 1000)
+      {
+        Serial.println("RFD" + tag);
       }
       timePreviousRfid = millis();
     }
-  }else if(state == "play"){
-    if(timePreviousLed>0){
-      if(millis()-timePreviousLed>1000){
+  }
+  else if (state == "play")
+  {
+    if (timePreviousLed > 0)
+    {
+      if (millis() - timePreviousLed > 1000)
+      {
         timePreviousLed = 0;
         digitalWrite(LED_GREEN, LOW);
       }
+    }
+    if (millis() - timePreviousServo > 50)
+    {
+      if (servoRight)
+      {
+        servoAngle += 2;
+        if (servoAngle > 180)
+        {
+          servoAngle = 178;
+          servoRight = false;
+        }
+      }
+      else
+      {
+        servoAngle -= 2;
+        if (servoAngle < 0)
+        {
+          servoAngle = 2;
+          servoRight = true;
+        }
+      }
+      servo.write(servoAngle);
+      timePreviousServo = millis();
     }
   }
 
@@ -128,7 +158,8 @@ void executeCommand()
     displayString = "Ready to connect";
     delay(1000);
   }
-  else if (inputString.startsWith("LSC")){
+  else if (inputString.startsWith("LSC"))
+  {
     inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print("Logged in as:");
@@ -137,8 +168,10 @@ void executeCommand()
     tone(BUZZER, 740, 300);
     digitalWrite(LED_GREEN, HIGH);
     timePreviousLed = millis();
-    state="play";
-  }else if(inputString.startsWith("LFD")){
+    state = "play";
+  }
+  else if (inputString.startsWith("LFD"))
+  {
     inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print(inputString);
