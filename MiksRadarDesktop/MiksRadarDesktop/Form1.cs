@@ -80,6 +80,7 @@ namespace MiksRadarDesktop
                 cmbPorts.Enabled = true;
                 isPortOpen = false;
                 btnConnect.Enabled = false;
+                btnPause.Enabled = false;
                 Thread.Sleep(1000);
                 btnConnect.Enabled = true;
                 consoleBox.AppendText(DateTime.Now + " -- Prekinuta veza sa Arduino Uno na portu " + port.PortName + ".\n");
@@ -122,6 +123,7 @@ namespace MiksRadarDesktop
             if (korisnik != null)
             {
                 lblKorisnik.Text = korisnik.Ime;
+                btnPause.Enabled = true;
                 db.Prijavas.Add(new Prijava
                 {
                     Korisnik = korisnik,
@@ -170,6 +172,26 @@ namespace MiksRadarDesktop
                         ));
                 }
                 catch { }
+            }
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            if (port != null)
+            {
+                if (port.IsOpen)
+                {
+                    if (btnPause.Text == "Pauza")
+                    {
+                        port.Write("PAU#");
+                        btnPause.Text = "Nastavi";
+                    }
+                    else
+                    {
+                        port.Write("RSM#");
+                        btnPause.Text = "Pauza";
+                    }
+                }
             }
         }
     }

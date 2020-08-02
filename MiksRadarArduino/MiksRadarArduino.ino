@@ -189,4 +189,14 @@ void executeCommand()
     delay(400);
     digitalWrite(LED_RED, LOW);
   }
+  else if(inputString.startsWith("PAU")){
+    state="pause";
+    lcd.clear();
+    lcd.print("Radar paused");
+  }
+  else if(inputString.startsWith("RSM")){
+    state="play";
+    lcd.clear();
+    lcd.print("Radar pokrenut");
+  }
 }

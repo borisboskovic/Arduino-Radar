@@ -36,6 +36,7 @@
             this.lblConnectionStatus = new System.Windows.Forms.Label();
             this.radarPanel = new MiksRadarDesktop.RadarPanel();
             this.lblKorisnik = new System.Windows.Forms.Label();
+            this.btnPause = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // consoleBox
@@ -52,7 +53,7 @@
             // 
             this.cmbPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPorts.FormattingEnabled = true;
-            this.cmbPorts.Location = new System.Drawing.Point(129, 63);
+            this.cmbPorts.Location = new System.Drawing.Point(76, 74);
             this.cmbPorts.Margin = new System.Windows.Forms.Padding(2);
             this.cmbPorts.Name = "cmbPorts";
             this.cmbPorts.Size = new System.Drawing.Size(59, 21);
@@ -61,7 +62,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(96, 71);
+            this.label1.Location = new System.Drawing.Point(43, 82);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 13);
@@ -70,7 +71,7 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(99, 88);
+            this.btnConnect.Location = new System.Drawing.Point(46, 99);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(2);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(89, 31);
@@ -122,11 +123,23 @@
             this.lblKorisnik.Size = new System.Drawing.Size(0, 17);
             this.lblKorisnik.TabIndex = 7;
             // 
+            // btnPause
+            // 
+            this.btnPause.Enabled = false;
+            this.btnPause.Location = new System.Drawing.Point(170, 74);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(89, 56);
+            this.btnPause.TabIndex = 8;
+            this.btnPause.Text = "Pauza";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.btnPause);
             this.Controls.Add(this.lblKorisnik);
             this.Controls.Add(this.radarPanel);
             this.Controls.Add(this.lblConnectionStatus);
@@ -157,6 +170,7 @@
         private System.Windows.Forms.Label lblConnectionStatus;
         private RadarPanel radarPanel;
         private System.Windows.Forms.Label lblKorisnik;
+        private System.Windows.Forms.Button btnPause;
     }
 }
 
