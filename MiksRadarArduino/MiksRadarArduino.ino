@@ -16,6 +16,7 @@
 #define BUZZER 3
 #define LED_RED 4
 #define LED_GREEN 5
+#define BUTTON 9
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
 NewPing sonar(HCSR04_PIN_TRIG, HCSR04_PIN_ECHO);
@@ -29,6 +30,8 @@ bool servoRight = true;
 bool stringComplete = false;
 String inputString = "";
 String displayString = "";
+
+int buttonStatePrevious=0;
 
 long timePreviousRfid = 0;
 long timePreviousLed = 0;
@@ -50,6 +53,7 @@ void setup()
   pinMode(BUZZER, OUTPUT);
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
+  pinMode(BUTTON, INPUT);
 
   displayString = "Ready to connect";
 }
@@ -80,6 +84,11 @@ void loop()
   }
   else if (state == "play")
   {
+    int buttonState=digitalRead(BUTTON);
+    if(buttonStatePrevious==1 && buttonState==0){
+      state="pause";
+    }
+    buttonStatePrevious = buttonState;
     if (timePreviousLed > 0)
     {
       if (millis() - timePreviousLed > 1000)
@@ -113,6 +122,12 @@ void loop()
       Serial.println("RES"+String(servoAngle)+":"+String(distance));
       timePreviousServo = millis();
     }
+  }else if(state=="pause"){
+    int buttonState=digitalRead(BUTTON);
+    if(buttonStatePrevious==1 && buttonState==0){
+      state="play";
+    }
+    buttonStatePrevious = buttonState;
   }
 
   if (stringComplete)
