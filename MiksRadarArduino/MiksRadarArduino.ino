@@ -31,6 +31,7 @@ String inputString = "";
 String displayString = "";
 
 long timePreviousRfid=0;
+long timePreviousLed=0;
 
 void setup()
 {
@@ -72,6 +73,13 @@ void loop()
         Serial.println("RFD"+tag);
       }
       timePreviousRfid = millis();
+    }
+  }else if(state == "play"){
+    if(timePreviousLed>0){
+      if(millis()-timePreviousLed>1000){
+        timePreviousLed = 0;
+        digitalWrite(LED_GREEN, LOW);
+      }
     }
   }
 
@@ -126,12 +134,24 @@ void executeCommand()
     lcd.print("Logged in as:");
     lcd.setCursor(0, 1);
     lcd.print(inputString);
+    tone(BUZZER, 740, 300);
+    digitalWrite(LED_GREEN, HIGH);
+    timePreviousLed = millis();
     state="play";
   }else if(inputString.startsWith("LFD")){
     inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print(inputString);
     displayString = "Ready to connect";
-    delay(1000);
+    digitalWrite(LED_RED, HIGH);
+    tone(BUZZER, 220);
+    delay(200);
+    noTone(BUZZER);
+    delay(200);
+    tone(BUZZER, 220);
+    delay(200);
+    noTone(BUZZER);
+    delay(400);
+    digitalWrite(LED_RED, LOW);
   }
 }

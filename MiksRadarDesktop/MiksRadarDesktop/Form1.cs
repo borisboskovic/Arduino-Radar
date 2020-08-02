@@ -28,6 +28,7 @@ namespace MiksRadarDesktop
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            consoleBox.AppendText(DateTime.Now + " -- Program pokrenut.\n");
             string[] availablePorts = SerialPort.GetPortNames();
             foreach (string port in availablePorts)
                 cmbPorts.Items.Add(port);
@@ -47,23 +48,32 @@ namespace MiksRadarDesktop
                 string portName = cmbPorts.SelectedItem.ToString();
                 port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
                 port.Open();
-                btnConnect.Text = "Discconect";
+                btnConnect.Text = "Prekini";
+                lblConnectionStatus.Text = "Veza uspostavljena";
+                lblConnectionStatus.ForeColor = Color.DarkGreen;
                 cmbPorts.Enabled = false;
                 port.Write("CONConnected: " + portName + "#");
                 isPortOpen = true;
                 Thread listeningThread = new Thread(Listen);
                 listeningThread.Start();
+                consoleBox.AppendText(DateTime.Now + " -- Povezano sa Arduino Uno na portu " + portName + ".\n");
+                consoleBox.ScrollToCaret();
             }
             else
             {
                 port.Write("DSCDisconnected#");
                 port.Close();
-                btnConnect.Text = "Connect";
+                btnConnect.Text = "Povezi";
+                lblKorisnik.Text = "";
+                lblConnectionStatus.Text = "Veza prekinuta";
+                lblConnectionStatus.ForeColor = Color.DarkRed;
                 cmbPorts.Enabled = true;
                 isPortOpen = false;
                 btnConnect.Enabled = false;
                 Thread.Sleep(1000);
                 btnConnect.Enabled = true;
+                consoleBox.AppendText(DateTime.Now + " -- Prekinuta veza sa Arduino Uno na portu " + port.PortName + ".\n");
+                consoleBox.ScrollToCaret();
             }
         }
 
@@ -91,7 +101,6 @@ namespace MiksRadarDesktop
                     Authorize(tag);
                     break;
             }
-            consoleBox.AppendText(cmd + "\n");
         }
 
         private void Authorize(string tag)
@@ -99,25 +108,30 @@ namespace MiksRadarDesktop
             var korisnik = db.Korisniks.FirstOrDefault(k => k.RFID == tag);
             if (korisnik != null)
             {
-                consoleBox.AppendText(korisnik.Ime+"\n");
-                db.Prijavas.Add(new Prijava {
-                    Korisnik=korisnik,
-                    Pristup=true,
-                    RFID=korisnik.RFID,
-                    Vrijeme=DateTime.Now,
-                    Kor_Id=korisnik.Id
+                lblKorisnik.Text = korisnik.Ime;
+                db.Prijavas.Add(new Prijava
+                {
+                    Korisnik = korisnik,
+                    Pristup = true,
+                    RFID = korisnik.RFID,
+                    Vrijeme = DateTime.Now,
+                    Kor_Id = korisnik.Id
                 });
                 port.Write("LSCBoris#");
+                consoleBox.AppendText(DateTime.Now + " -- Prijava RFID tagom: " + tag + ". Korisnik: " + korisnik.Ime + ". PRISTUP ODOBREN\n");
+                consoleBox.ScrollToCaret();
             }
             else
             {
                 db.Prijavas.Add(new Prijava
                 {
-                    Pristup=false,
-                    RFID=tag,
-                    Vrijeme=DateTime.Now
+                    Pristup = false,
+                    RFID = tag,
+                    Vrijeme = DateTime.Now
                 });
                 port.Write("LFDUser not found!#");
+                consoleBox.AppendText(DateTime.Now + " -- Pokusaj prijave RFID tagom: "+tag+". Korisnik nije pronadjen. PRISTUP ODBIJEN\n");
+                consoleBox.ScrollToCaret();
             }
             db.SaveChangesAsync();
         }
