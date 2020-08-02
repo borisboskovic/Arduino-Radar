@@ -100,6 +100,9 @@ namespace MiksRadarDesktop
                     string tag = cmd.Substring(3, cmd.Length - 4);
                     Authorize(tag);
                     break;
+                case "RES":
+                    ProcessResult(cmd.Substring(3, cmd.Length - 4));
+                    break;
             }
         }
 
@@ -134,6 +137,11 @@ namespace MiksRadarDesktop
                 consoleBox.ScrollToCaret();
             }
             db.SaveChangesAsync();
+        }
+
+        private void ProcessResult(string result)
+        {
+
         }
 
         public void Listen()
