@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,7 +36,6 @@ namespace MiksRadarDesktop
             try
             {
                 cmbPorts.SelectedIndex = 0;
-
             }
             catch (ArgumentOutOfRangeException) { }
         }
@@ -133,7 +133,7 @@ namespace MiksRadarDesktop
                     Vrijeme = DateTime.Now
                 });
                 port.Write("LFDUser not found!#");
-                consoleBox.AppendText(DateTime.Now + " -- Pokusaj prijave RFID tagom: "+tag+". Korisnik nije pronadjen. PRISTUP ODBIJEN\n");
+                consoleBox.AppendText(DateTime.Now + " -- Pokusaj prijave RFID tagom: " + tag + ". Korisnik nije pronadjen. PRISTUP ODBIJEN\n");
                 consoleBox.ScrollToCaret();
             }
             db.SaveChangesAsync();
@@ -141,7 +141,8 @@ namespace MiksRadarDesktop
 
         private void ProcessResult(string result)
         {
-
+            radarPanel.AddMeasurement(result);
+            radarPanel.Refresh();
         }
 
         public void Listen()

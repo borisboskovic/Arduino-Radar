@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,8 @@ namespace MiksRadarDesktop
     {
         double range = 1.0;
         private Color gridColor = Color.FromArgb(0, 211, 15);
+        private int[] angles = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, };
+        private int[] distances = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, };
 
         public RadarPanel()
         {
@@ -26,6 +29,8 @@ namespace MiksRadarDesktop
             g.SmoothingMode = SmoothingMode.AntiAlias;
             DrawGrid(g);
         }
+
+        protected override void OnPaintBackground(PaintEventArgs e) { }
 
         private void DrawGrid(Graphics g)
         {
@@ -97,6 +102,21 @@ namespace MiksRadarDesktop
             g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -35 + 0.125f, -1.75f);
             g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -37 + 0.125f, -1.75f);
             g.FillPie(brush, new Rectangle(0, 0, 1024, 1024), -39 + 0.125f, -1.75f);
+        }
+
+        public void AddMeasurement(string str)
+        {
+            Regex rgx = new Regex("(\\d+)\\:(\\d+)");
+            GroupCollection groups = rgx.Match(str).Groups;
+            int angle = Convert.ToInt32(groups[1].Value);
+            int distance = Convert.ToInt32(groups[2].Value);
+            for (int i = 19; i >= 1; i--)
+            {
+                angles[i] = angles[i - 1];
+                distances[i] = distances[i - 1];
+                angles[0] = angle;
+                distances[0] = distance;
+            }
         }
     }
 }

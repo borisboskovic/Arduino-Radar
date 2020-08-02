@@ -109,8 +109,6 @@ void loop()
         }
       }
       servo.write(servoAngle);
-      //float duration = sonar.ping_median(5);
-      //float distance = (duration / 2) * 0.0346;
       int distance = sonar.ping_cm();
       Serial.println("RES"+String(servoAngle)+":"+String(distance));
       timePreviousServo = millis();
