@@ -8,10 +8,14 @@
 #define HCSR04_PIN_TRIG 9
 #define HCSR04_PIN_ECHO 8
 
-#define SERVO_PIN 4
+#define SERVO_PIN 6
 
 #define RFID_PIN_RST 2
 #define RFID_PIN_SDA 10
+
+#define BUZZER 3
+#define LED_RED 4
+#define LED_GREEN 5
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
 NewPing sonar(HCSR04_PIN_TRIG, HCSR04_PIN_ECHO);
@@ -26,6 +30,8 @@ bool stringComplete = false;
 String inputString = "";
 String displayString = "";
 
+long timePreviousRfid=0;
+
 void setup()
 {
   Serial.begin(9600);
@@ -38,6 +44,10 @@ void setup()
 
   servo.attach(SERVO_PIN);
   servo.write(servoAngle);
+
+  pinMode(BUZZER, OUTPUT);
+  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
 
   displayString = "Ready to connect";
 }
@@ -52,11 +62,17 @@ void loop()
     displayString = "";
   }
 
+  //Ukoliko je uspostavljena veza preko serijskog porta ali nije izvrsena autorizacija
   if (state == "wait")
   {
+    long currentTime = millis();
     String tag = rfid.readTag();
-    if (tag != "None")
-      Serial.println(tag);
+    if(tag != "None"){
+      if(currentTime - timePreviousRfid > 1000){
+        Serial.println("RFD"+tag);
+      }
+      timePreviousRfid = millis();
+    }
   }
 
   if (stringComplete)
@@ -101,6 +117,20 @@ void executeCommand()
     lcd.clear();
     lcd.print(inputString);
     state = "stop";
+    displayString = "Ready to connect";
+    delay(1000);
+  }
+  else if (inputString.startsWith("LSC")){
+    inputString = inputString.substring(3, inputString.length());
+    lcd.clear();
+    lcd.print("Logged in as:");
+    lcd.setCursor(0, 1);
+    lcd.print(inputString);
+    state="play";
+  }else if(inputString.startsWith("LFD")){
+    inputString = inputString.substring(3, inputString.length());
+    lcd.clear();
+    lcd.print(inputString);
     displayString = "Ready to connect";
     delay(1000);
   }
