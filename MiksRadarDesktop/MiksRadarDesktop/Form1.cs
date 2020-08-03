@@ -192,6 +192,13 @@ namespace MiksRadarDesktop
                 }
                 catch { }
             }
+            string[] availPorts = SerialPort.GetPortNames();
+            bool exit = true;
+            foreach (string portName in availPorts)
+                if (portName.Equals(port.PortName))
+                    exit = false;
+            if (exit) Environment.Exit(Environment.ExitCode);
+
         }
 
         private void btnPause_Click(object sender, EventArgs e)
