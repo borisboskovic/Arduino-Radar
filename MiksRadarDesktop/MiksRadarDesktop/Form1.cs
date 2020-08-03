@@ -62,7 +62,7 @@ namespace MiksRadarDesktop
                 lblConnectionStatus.Text = "Veza uspostavljena";
                 lblConnectionStatus.ForeColor = Color.DarkGreen;
                 cmbPorts.Enabled = false;
-                port.Write("CONConnected: " + portName + "#");
+                port.Write("CONPovezano: " + portName + "#");
                 isPortOpen = true;
                 Thread listeningThread = new Thread(Listen);
                 listeningThread.Start();
@@ -71,9 +71,12 @@ namespace MiksRadarDesktop
             }
             else
             {
-                port.Write("DSCDisconnected#");
+                port.Write("DSCVeza prekinuta#");
                 port.Close();
                 btnConnect.Text = "Povezi";
+                btnPause.Text = "Pauza";
+                btnSend.Enabled = false;
+                txtMessage.Enabled = false;
                 lblKorisnik.Text = "";
                 lblConnectionStatus.Text = "Veza prekinuta";
                 lblConnectionStatus.ForeColor = Color.DarkRed;
@@ -94,7 +97,7 @@ namespace MiksRadarDesktop
             {
                 try
                 {
-                    port.Write("DSCDisconnected#");
+                    port.Write("DSCVeza prekinuta#");
                     port.Close();
 
                 }
@@ -114,6 +117,20 @@ namespace MiksRadarDesktop
                 case "RES":
                     ProcessResult(cmd.Substring(3, cmd.Length - 4));
                     break;
+                case "PAU":
+                    if (btnPause.Text == "Pauza")
+                    {
+                        btnPause.Text = "Nastavi";
+                        consoleBox.AppendText(DateTime.Now + " -- Radar zaustavljen (pritiskom tastera)\n");
+                        consoleBox.ScrollToCaret();
+                    }
+                    else
+                    {
+                        btnPause.Text = "Pauza";
+                        consoleBox.AppendText(DateTime.Now + " -- Radar pokrenut (pritiskom tastera)\n");
+                        consoleBox.ScrollToCaret();
+                    }
+                    break;
             }
         }
 
@@ -124,6 +141,8 @@ namespace MiksRadarDesktop
             {
                 lblKorisnik.Text = korisnik.Ime;
                 btnPause.Enabled = true;
+                btnSend.Enabled = true;
+                txtMessage.Enabled = true;
                 db.Prijavas.Add(new Prijava
                 {
                     Korisnik = korisnik,
@@ -144,7 +163,7 @@ namespace MiksRadarDesktop
                     RFID = tag,
                     Vrijeme = DateTime.Now
                 });
-                port.Write("LFDUser not found!#");
+                port.Write("LFDNemate pristup!#");
                 consoleBox.AppendText(DateTime.Now + " -- Pokusaj prijave RFID tagom: " + tag + ". Korisnik nije pronadjen. PRISTUP ODBIJEN\n");
                 consoleBox.ScrollToCaret();
             }
@@ -185,14 +204,47 @@ namespace MiksRadarDesktop
                     {
                         port.Write("PAU#");
                         btnPause.Text = "Nastavi";
+                        consoleBox.AppendText(DateTime.Now + " -- Radar zaustavljen (iz aplikacije)\n");
+                        consoleBox.ScrollToCaret();
                     }
                     else
                     {
                         port.Write("RSM#");
                         btnPause.Text = "Pauza";
+                        consoleBox.AppendText(DateTime.Now + " -- Radar pokrenut (iz aplikacije)\n");
+                        consoleBox.ScrollToCaret();
                     }
                 }
             }
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            if (port != null)
+            {
+                if (port.IsOpen)
+                {
+                    string message = txtMessage.Text;
+                    txtMessage.Text = "";
+                    port.Write("MSG" + message + "#");
+                    consoleBox.AppendText(DateTime.Now + " -- Poslata poruka: " + message + "\n");
+                    consoleBox.ScrollToCaret();
+                }
+            }
+        }
+
+        private void txtMessage_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSend_Click(txtMessage, null);
+            }
+        }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            Prijave prijaveWindow = new Prijave(db);
+            prijaveWindow.Show();
         }
     }
 }

@@ -28,15 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.consoleBox = new System.Windows.Forms.RichTextBox();
             this.cmbPorts = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.lblLabela = new System.Windows.Forms.Label();
             this.lblConnectionStatus = new System.Windows.Forms.Label();
-            this.radarPanel = new MiksRadarDesktop.RadarPanel();
             this.lblKorisnik = new System.Windows.Forms.Label();
             this.btnPause = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtMessage = new System.Windows.Forms.TextBox();
+            this.btnSend = new System.Windows.Forms.Button();
+            this.btnUsers = new System.Windows.Forms.Button();
+            this.btnHistory = new System.Windows.Forms.Button();
+            this.radarPanel = new MiksRadarDesktop.RadarPanel();
             this.SuspendLayout();
             // 
             // consoleBox
@@ -107,13 +113,6 @@
             this.lblConnectionStatus.Text = "Veza prekinuta";
             this.lblConnectionStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // radarPanel
-            // 
-            this.radarPanel.Location = new System.Drawing.Point(320, 4);
-            this.radarPanel.Name = "radarPanel";
-            this.radarPanel.Size = new System.Drawing.Size(1024, 512);
-            this.radarPanel.TabIndex = 6;
-            // 
             // lblKorisnik
             // 
             this.lblKorisnik.AutoSize = true;
@@ -134,11 +133,75 @@
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.Location = new System.Drawing.Point(11, 188);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 17);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Poruka:";
+            // 
+            // txtMessage
+            // 
+            this.txtMessage.Enabled = false;
+            this.txtMessage.Location = new System.Drawing.Point(14, 208);
+            this.txtMessage.MaxLength = 32;
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(289, 20);
+            this.txtMessage.TabIndex = 10;
+            this.txtMessage.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyUp);
+            // 
+            // btnSend
+            // 
+            this.btnSend.Enabled = false;
+            this.btnSend.Location = new System.Drawing.Point(14, 234);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(289, 31);
+            this.btnSend.TabIndex = 11;
+            this.btnSend.Text = "Posalji";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // btnUsers
+            // 
+            this.btnUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnUsers.Location = new System.Drawing.Point(15, 602);
+            this.btnUsers.Name = "btnUsers";
+            this.btnUsers.Size = new System.Drawing.Size(288, 49);
+            this.btnUsers.TabIndex = 12;
+            this.btnUsers.Text = "Korisnici";
+            this.btnUsers.UseVisualStyleBackColor = true;
+            // 
+            // btnHistory
+            // 
+            this.btnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnHistory.Location = new System.Drawing.Point(15, 668);
+            this.btnHistory.Name = "btnHistory";
+            this.btnHistory.Size = new System.Drawing.Size(288, 49);
+            this.btnHistory.TabIndex = 13;
+            this.btnHistory.Text = "Istorija prijava";
+            this.btnHistory.UseVisualStyleBackColor = true;
+            this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
+            // 
+            // radarPanel
+            // 
+            this.radarPanel.Location = new System.Drawing.Point(320, 4);
+            this.radarPanel.Name = "radarPanel";
+            this.radarPanel.Size = new System.Drawing.Size(1024, 512);
+            this.radarPanel.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.btnHistory);
+            this.Controls.Add(this.btnUsers);
+            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.txtMessage);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.lblKorisnik);
             this.Controls.Add(this.radarPanel);
@@ -148,10 +211,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbPorts);
             this.Controls.Add(this.consoleBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(1366, 768);
             this.MinimumSize = new System.Drawing.Size(1366, 768);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Arduino Radar - by Boris Boskovic";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -171,6 +236,11 @@
         private RadarPanel radarPanel;
         private System.Windows.Forms.Label lblKorisnik;
         private System.Windows.Forms.Button btnPause;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtMessage;
+        private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.Button btnUsers;
+        private System.Windows.Forms.Button btnHistory;
     }
 }
 

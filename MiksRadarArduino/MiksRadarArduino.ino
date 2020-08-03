@@ -9,6 +9,7 @@
 #define HCSR04_PIN_ECHO 8
 
 #define SERVO_PIN 6
+#define SERVO_DELAY 75
 
 #define RFID_PIN_RST 2
 #define RFID_PIN_SDA 10
@@ -55,7 +56,7 @@ void setup()
   pinMode(LED_GREEN, OUTPUT);
   pinMode(BUTTON, INPUT);
 
-  displayString = "Ready to connect";
+  displayString = "Nije povezano";
 }
 
 void loop()
@@ -87,6 +88,11 @@ void loop()
     int buttonState=digitalRead(BUTTON);
     if(buttonStatePrevious==1 && buttonState==0){
       state="pause";
+      Serial.println("PAU");
+      lcd.clear();
+      lcd.print("Radar");
+      lcd.setCursor(0,1);
+      lcd.print("Zaustavljen");
     }
     buttonStatePrevious = buttonState;
     if (timePreviousLed > 0)
@@ -97,7 +103,7 @@ void loop()
         digitalWrite(LED_GREEN, LOW);
       }
     }
-    if (millis() - timePreviousServo > 50)
+    if (millis() - timePreviousServo > SERVO_DELAY)
     {
       if (servoRight)
       {
@@ -126,6 +132,11 @@ void loop()
     int buttonState=digitalRead(BUTTON);
     if(buttonStatePrevious==1 && buttonState==0){
       state="play";
+      Serial.println("PAU");
+      lcd.clear();
+      lcd.print("Radar");
+      lcd.setCursor(0,1);
+      lcd.print("Pokrenut");
     }
     buttonStatePrevious = buttonState;
   }
@@ -163,8 +174,17 @@ void executeCommand()
   else if (inputString.startsWith("MSG"))
   {
     inputString = inputString.substring(3, inputString.length());
-    lcd.clear();
-    lcd.print(inputString);
+    if(inputString.length()>8){
+      String str1=inputString.substring(0, 16);
+      String str2=inputString.substring(16, inputString.length());
+      lcd.clear();
+      lcd.print(str1);
+      lcd.setCursor(0, 1);
+      lcd.print(str2);
+    }else{
+      lcd.clear();
+      lcd.print(inputString);
+    }
   }
   else if (inputString.startsWith("DSC"))
   {
@@ -172,14 +192,14 @@ void executeCommand()
     lcd.clear();
     lcd.print(inputString);
     state = "stop";
-    displayString = "Ready to connect";
+    displayString = "Nije povezano";
     delay(1000);
   }
   else if (inputString.startsWith("LSC"))
   {
     inputString = inputString.substring(3, inputString.length());
     lcd.clear();
-    lcd.print("Logged in as:");
+    lcd.print("Prijavljen:");
     lcd.setCursor(0, 1);
     lcd.print(inputString);
     tone(BUZZER, 740, 300);
@@ -192,7 +212,7 @@ void executeCommand()
     inputString = inputString.substring(3, inputString.length());
     lcd.clear();
     lcd.print(inputString);
-    displayString = "Ready to connect";
+    displayString = "Nije povezano";
     digitalWrite(LED_RED, HIGH);
     tone(BUZZER, 220);
     delay(200);
@@ -207,11 +227,15 @@ void executeCommand()
   else if(inputString.startsWith("PAU")){
     state="pause";
     lcd.clear();
-    lcd.print("Radar paused");
+    lcd.print("Radar");
+    lcd.setCursor(0,1);
+    lcd.print("Zaustavljen");
   }
   else if(inputString.startsWith("RSM")){
     state="play";
     lcd.clear();
-    lcd.print("Radar pokrenut");
+    lcd.print("Radar");
+    lcd.setCursor(0,1);
+    lcd.print("Pokrenut");
   }
 }
