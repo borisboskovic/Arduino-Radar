@@ -14,9 +14,11 @@ namespace MiksRadarDesktop
     public partial class KorisniciForm : Form
     {
         MiksRadarDatabaseContext db;
+        SerialPort port;
         public KorisniciForm(SerialPort port, MiksRadarDatabaseContext db)
         {
             InitializeComponent();
+            this.port = port;
             this.db = db;
             List<Korisnik> korisnici = db.Korisniks.ToList();
             foreach (Korisnik k in korisnici)

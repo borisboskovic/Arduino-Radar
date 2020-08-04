@@ -91,21 +91,21 @@ namespace MiksRadarDesktop
 
         private void DrawRadarStripe(Graphics g, int angle, int distance, int index)
         {
-            float angleF = angle - 1 + 0.125f;
+            float angleF = angle - 1;
             Color c1 = Color.FromArgb(255 - 12 * index, gridColor.R, gridColor.G, gridColor.B);
             Color c2 = Color.FromArgb(255 - 12 * index, objectColor.R, objectColor.G, objectColor.B);
             SolidBrush brushMain = new SolidBrush(c1);
             SolidBrush brushObject = new SolidBrush(c2);
             if (distance >= 2 && distance <= range * 100)
             {
-                g.FillPie(brushObject, new Rectangle(0, 0, 1024, 1024), angleF, -1.75f);
+                g.FillPie(brushObject, new Rectangle(0, 0, 1024, 1024), angleF, -2f);
                 double ratio = distance / 100.0;
                 int a = (int)(1024 * ratio);
                 int d = (1024 - a) / 2;
-                g.FillPie(brushMain, new Rectangle(d, d, a, a), angleF, -1.75f);
+                g.FillPie(brushMain, new Rectangle(d, d, a, a), angleF, -2f);
             }
             else
-                g.FillPie(brushMain, new Rectangle(0, 0, 1024, 1024), angleF, -1.75f);
+                g.FillPie(brushMain, new Rectangle(0, 0, 1024, 1024), angleF, -2f);
         }
 
         public void AddMeasurement(string str)
@@ -124,5 +124,11 @@ namespace MiksRadarDesktop
             angles[0] = angle;
             distances[0] = distance;
         }
+
+        public void ClearMeasurements()
+        {
+            this.angles = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, };
+            this.distances = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, };
+    }
     }
 }

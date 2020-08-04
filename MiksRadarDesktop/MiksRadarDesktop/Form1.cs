@@ -87,6 +87,8 @@ namespace MiksRadarDesktop
                 isPortOpen = false;
                 btnConnect.Enabled = false;
                 btnPause.Enabled = false;
+                radarPanel.ClearMeasurements();
+                radarPanel.Refresh();
                 Thread.Sleep(1000);
                 btnConnect.Enabled = true;
                 consoleBox.AppendText(DateTime.Now + " -- Prekinuta veza sa Arduino Uno na portu " + port.PortName + ".\n");
