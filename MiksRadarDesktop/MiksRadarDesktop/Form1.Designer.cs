@@ -166,6 +166,7 @@
             // 
             // btnUsers
             // 
+            this.btnUsers.Enabled = false;
             this.btnUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnUsers.Location = new System.Drawing.Point(15, 602);
             this.btnUsers.Name = "btnUsers";
@@ -177,6 +178,7 @@
             // 
             // btnHistory
             // 
+            this.btnHistory.Enabled = false;
             this.btnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnHistory.Location = new System.Drawing.Point(15, 668);
             this.btnHistory.Name = "btnHistory";

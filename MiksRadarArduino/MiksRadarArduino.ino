@@ -19,12 +19,12 @@
 #define LED_GREEN 5
 #define BUTTON 9
 
-LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
+LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2);
 NewPing sonar(HCSR04_PIN_TRIG, HCSR04_PIN_ECHO);
 RFID rfid(RFID_PIN_SDA, RFID_PIN_RST);
 Servo servo;
 
-String state = "stop";
+String state;
 int servoAngle = 90;
 bool servoRight = true;
 
@@ -57,6 +57,7 @@ void setup()
   pinMode(BUTTON, INPUT);
 
   displayString = "Nije povezano";
+  state="stop";
 }
 
 void loop()

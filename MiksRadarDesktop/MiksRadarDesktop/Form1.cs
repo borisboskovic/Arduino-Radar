@@ -57,6 +57,7 @@ namespace MiksRadarDesktop
             {
                 string portName = cmbPorts.SelectedItem.ToString();
                 port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
+                port.DtrEnable = false;
                 port.Open();
                 btnConnect.Text = "Prekini";
                 lblConnectionStatus.Text = "Veza uspostavljena";
@@ -77,6 +78,8 @@ namespace MiksRadarDesktop
                 btnPause.Text = "Pauza";
                 btnSend.Enabled = false;
                 txtMessage.Enabled = false;
+                btnUsers.Enabled = false;
+                btnHistory.Enabled = false;
                 lblKorisnik.Text = "";
                 lblConnectionStatus.Text = "Veza prekinuta";
                 lblConnectionStatus.ForeColor = Color.DarkRed;
@@ -142,6 +145,8 @@ namespace MiksRadarDesktop
                 lblKorisnik.Text = korisnik.Ime;
                 btnPause.Enabled = true;
                 btnSend.Enabled = true;
+                btnUsers.Enabled = true;
+                btnHistory.Enabled = true;
                 txtMessage.Enabled = true;
                 db.Prijavas.Add(new Prijava
                 {
