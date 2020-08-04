@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MiksRadarModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MiksRadarModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Korisnik">
           <Key>
             <PropertyRef Name="Id" />
@@ -23,29 +23,13 @@
           <Property Name="Vrijeme" Type="datetime" Nullable="false" />
           <Property Name="RFID" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="Pristup" Type="bit" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="32" />
         </EntityType>
-        <Association Name="FK_PRIJAVA_PRIJAVLJU_KORISNIK">
-          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
-          <End Role="Prijava" Type="Self.Prijava" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Korisnik">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Prijava">
-              <PropertyRef Name="Kor_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="MiksRadarModelsStoreContainer">
           <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Prijava" EntityType="Self.Prijava" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_PRIJAVA_PRIJAVLJU_KORISNIK" Association="Self.FK_PRIJAVA_PRIJAVLJU_KORISNIK">
-            <End Role="Korisnik" EntitySet="Korisnik" />
-            <End Role="Prijava" EntitySet="Prijava" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MiksRadarModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -69,6 +53,7 @@
           <Property Name="RFID" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Pristup" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Korisnik" Relationship="Self.FK_PRIJAVA_PRIJAVLJU_KORISNIK" FromRole="Prijava" ToRole="Korisnik" />
+          <Property Name="Ime" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_PRIJAVA_PRIJAVLJU_KORISNIK">
           <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
@@ -109,6 +94,7 @@
           <EntitySetMapping Name="Prijavas">
             <EntityTypeMapping TypeName="MiksRadarModels.Prijava">
               <MappingFragment StoreEntitySet="Prijava">
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Kor_Id" ColumnName="Kor_Id" />
                 <ScalarProperty Name="Vrijeme" ColumnName="Vrijeme" />

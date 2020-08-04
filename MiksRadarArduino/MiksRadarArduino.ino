@@ -152,7 +152,7 @@ void loop()
       state=previousState;
       previousState="";
       lcd.clear();
-      lcd.print("Kartica ocitana");
+      lcd.print("Kartica skenirana");
       tone(BUZZER, 740, 300);
       digitalWrite(LED_GREEN, HIGH);
       timePreviousLed = millis();

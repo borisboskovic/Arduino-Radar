@@ -59,18 +59,3 @@ create table Prijava (
 )
 go
 
-/*==============================================================*/
-/* Index: PrijavljujeSeKorisnik_FK                              */
-/*==============================================================*/
-
-
-
-
-create nonclustered index PrijavljujeSeKorisnik_FK on Prijava (Kor_Id ASC)
-go
-
-alter table Prijava
-   add constraint FK_PRIJAVA_PRIJAVLJU_KORISNIK foreign key (Kor_Id)
-      references Korisnik (Id)
-go
-

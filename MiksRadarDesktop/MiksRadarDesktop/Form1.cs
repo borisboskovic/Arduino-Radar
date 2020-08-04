@@ -19,6 +19,7 @@ namespace MiksRadarDesktop
         SerialPort port;
         bool isPortOpen = false;
         List<Korisnik> korisnici;
+        KorisniciForm korisniciForm;
 
         public Form1()
         {
@@ -55,6 +56,13 @@ namespace MiksRadarDesktop
         {
             if (!isPortOpen)
             {
+                if (cmbPorts.Items.Count == 0)
+                {
+                    string[] availablePorts = SerialPort.GetPortNames();
+                    foreach (string port in availablePorts)
+                        cmbPorts.Items.Add(port);
+                    cmbPorts.SelectedIndex = 0;
+                }
                 string portName = cmbPorts.SelectedItem.ToString();
                 port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
                 port.DtrEnable = false;
@@ -153,6 +161,7 @@ namespace MiksRadarDesktop
                     {
                         db.Korisniks.Add(noviKorisnik);
                         db.SaveChanges();
+                        korisniciForm.RefreshUsers();
                         MessageBox.Show("Dodat je novi korisnik.", "Dodato", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -178,7 +187,8 @@ namespace MiksRadarDesktop
                     Pristup = true,
                     RFID = korisnik.RFID,
                     Vrijeme = DateTime.Now,
-                    Kor_Id = korisnik.Id
+                    Kor_Id = korisnik.Id,
+                    Ime=korisnik.Ime
                 });
                 port.Write("LSCBoris#");
                 consoleBox.AppendText(DateTime.Now + " -- Prijava RFID tagom: " + tag + ". Korisnik: " + korisnik.Ime + ". PRISTUP ODOBREN\n");
@@ -192,7 +202,8 @@ namespace MiksRadarDesktop
                     Pristup = false,
                     RFID = korisnik.RFID,
                     Vrijeme = DateTime.Now,
-                    Kor_Id = korisnik.Id
+                    Kor_Id = korisnik.Id,
+                    Ime=korisnik.Ime
                 });
                 port.Write("LFDNemate pristup!#");
                 consoleBox.AppendText(DateTime.Now + " -- Prijava RFID tagom: " + tag + ". Korisnik: " + korisnik.Ime + ". PRISTUP ODBIJEN\n");
@@ -299,8 +310,8 @@ namespace MiksRadarDesktop
 
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            KorisniciForm form = new KorisniciForm(port, db);
-            form.Show();
+            korisniciForm = new KorisniciForm(port, db);
+            korisniciForm.Show();
         }
     }
 }

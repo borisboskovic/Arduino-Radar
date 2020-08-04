@@ -21,11 +21,7 @@ namespace MiksRadarDesktop
                 p.RFID,
                 Datum = p.Vrijeme.ToShortDateString(),
                 Vrijeme = p.Vrijeme.ToShortTimeString(),
-                Ime = korisnici
-                        .Where(k=>k.Id==p.Kor_Id)
-                        .Select(k=>
-                            k.Ime
-                        ).FirstOrDefault(),
+                p.Ime,
                 p.Pristup
             }).ToList();
             dataGridPrijave.DataSource = prijave;

@@ -29,26 +29,28 @@ namespace MiksRadarDesktop
         {
             db.Korisniks.Remove(k);
             db.SaveChanges();
-            flowLayoutPanel1.Controls.Clear();
-            List<Korisnik> korisnici = db.Korisniks.ToList();
-            foreach (Korisnik korisnik in korisnici)
-                flowLayoutPanel1.Controls.Add(new KorisnikRow(korisnik, this));
+            RefreshUsers();
         }
 
         public void ToggleAccess(Korisnik k)
         {
             k.Pristup = !k.Pristup;
             db.SaveChanges();
-            flowLayoutPanel1.Controls.Clear();
-            List<Korisnik> korisnici = db.Korisniks.ToList();
-            foreach (Korisnik korisnik in korisnici)
-                flowLayoutPanel1.Controls.Add(new KorisnikRow(korisnik, this));
+            RefreshUsers();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             DodavanjeKorisnika window = new DodavanjeKorisnika(port);
             window.Show();
+        }
+
+        public void RefreshUsers()
+        {
+            flowLayoutPanel1.Controls.Clear();
+            List<Korisnik> korisnici = db.Korisniks.ToList();
+            foreach (Korisnik korisnik in korisnici)
+                flowLayoutPanel1.Controls.Add(new KorisnikRow(korisnik, this));
         }
     }
 }

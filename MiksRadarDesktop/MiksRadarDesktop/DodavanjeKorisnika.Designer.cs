@@ -33,6 +33,7 @@
             this.txtIme = new System.Windows.Forms.TextBox();
             this.chbxPristup = new System.Windows.Forms.CheckBox();
             this.btnDodaj = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label2
@@ -67,6 +68,8 @@
             // chbxPristup
             // 
             this.chbxPristup.AutoSize = true;
+            this.chbxPristup.Checked = true;
+            this.chbxPristup.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbxPristup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.chbxPristup.Location = new System.Drawing.Point(179, 97);
             this.chbxPristup.Name = "chbxPristup";
@@ -86,11 +89,21 @@
             this.btnDodaj.UseVisualStyleBackColor = true;
             this.btnDodaj.Click += new System.EventHandler(this.btnDodaj_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(110, 207);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(248, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Nakon pritiska na taster \"Dodaj\", skenirajte kartiicu";
+            // 
             // DodavanjeKorisnika
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 209);
+            this.ClientSize = new System.Drawing.Size(452, 229);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnDodaj);
             this.Controls.Add(this.chbxPristup);
             this.Controls.Add(this.txtIme);
@@ -109,5 +122,6 @@
         private System.Windows.Forms.TextBox txtIme;
         private System.Windows.Forms.CheckBox chbxPristup;
         private System.Windows.Forms.Button btnDodaj;
+        private System.Windows.Forms.Label label1;
     }
 }

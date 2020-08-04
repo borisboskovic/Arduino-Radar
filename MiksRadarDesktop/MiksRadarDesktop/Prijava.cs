@@ -19,6 +19,7 @@ namespace MiksRadarDesktop
         public System.DateTime Vrijeme { get; set; }
         public string RFID { get; set; }
         public bool Pristup { get; set; }
+        public string Ime { get; set; }
     
         public virtual Korisnik Korisnik { get; set; }
     }
