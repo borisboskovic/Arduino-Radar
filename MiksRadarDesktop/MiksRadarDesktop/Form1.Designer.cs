@@ -48,7 +48,7 @@
             // consoleBox
             // 
             this.consoleBox.Location = new System.Drawing.Point(320, 521);
-            this.consoleBox.Margin = new System.Windows.Forms.Padding(2);
+            this.consoleBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.consoleBox.Name = "consoleBox";
             this.consoleBox.ReadOnly = true;
             this.consoleBox.Size = new System.Drawing.Size(1024, 197);
@@ -60,7 +60,7 @@
             this.cmbPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPorts.FormattingEnabled = true;
             this.cmbPorts.Location = new System.Drawing.Point(76, 74);
-            this.cmbPorts.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbPorts.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbPorts.Name = "cmbPorts";
             this.cmbPorts.Size = new System.Drawing.Size(59, 21);
             this.cmbPorts.TabIndex = 1;
@@ -78,7 +78,7 @@
             // btnConnect
             // 
             this.btnConnect.Location = new System.Drawing.Point(46, 99);
-            this.btnConnect.Margin = new System.Windows.Forms.Padding(2);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(89, 31);
             this.btnConnect.TabIndex = 3;
@@ -173,6 +173,7 @@
             this.btnUsers.TabIndex = 12;
             this.btnUsers.Text = "Korisnici";
             this.btnUsers.UseVisualStyleBackColor = true;
+            this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
             // 
             // btnHistory
             // 
@@ -212,7 +213,7 @@
             this.Controls.Add(this.cmbPorts);
             this.Controls.Add(this.consoleBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximumSize = new System.Drawing.Size(1366, 768);
             this.MinimumSize = new System.Drawing.Size(1366, 768);
             this.Name = "Form1";

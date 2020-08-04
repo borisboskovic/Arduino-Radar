@@ -61,8 +61,20 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="KorisniciForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KorisniciForm.Designer.cs">
+      <DependentUpon>KorisniciForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Korisnik.cs">
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KorisnikRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="KorisnikRow.Designer.cs">
+      <DependentUpon>KorisnikRow.cs</DependentUpon>
     </Compile>
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -95,6 +107,12 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KorisniciForm.resx">
+      <DependentUpon>KorisniciForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KorisnikRow.resx">
+      <DependentUpon>KorisnikRow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prijave.resx">
       <DependentUpon>Prijave.cs</DependentUpon>
