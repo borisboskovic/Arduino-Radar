@@ -42,6 +42,7 @@
             this.dataGridPrijave.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPrijave.Location = new System.Drawing.Point(12, 12);
             this.dataGridPrijave.Name = "dataGridPrijave";
+            this.dataGridPrijave.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridPrijave.Size = new System.Drawing.Size(776, 426);
             this.dataGridPrijave.TabIndex = 0;
             // 

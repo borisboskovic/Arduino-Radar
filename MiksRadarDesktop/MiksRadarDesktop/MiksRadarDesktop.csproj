@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DodavanjeKorisnika.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DodavanjeKorisnika.Designer.cs">
+      <DependentUpon>DodavanjeKorisnika.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="NewUserTempData.cs" />
     <Compile Include="Prijava.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -105,6 +112,9 @@
     <Compile Include="RadarPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="DodavanjeKorisnika.resx">
+      <DependentUpon>DodavanjeKorisnika.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

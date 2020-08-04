@@ -44,5 +44,11 @@ namespace MiksRadarDesktop
             foreach (Korisnik korisnik in korisnici)
                 flowLayoutPanel1.Controls.Add(new KorisnikRow(korisnik, this));
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DodavanjeKorisnika window = new DodavanjeKorisnika(port);
+            window.Show();
+        }
     }
 }

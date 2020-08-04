@@ -38,9 +38,9 @@
             // 
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(9, 10);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(585, 256);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -65,6 +65,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Dodaj korisnika";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // KorisniciForm
             // 
@@ -73,7 +74,7 @@
             this.ClientSize = new System.Drawing.Size(602, 350);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "KorisniciForm";
             this.Text = "Korisnici";
             this.groupBox1.ResumeLayout(false);

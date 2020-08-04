@@ -136,6 +136,28 @@ namespace MiksRadarDesktop
                         consoleBox.ScrollToCaret();
                     }
                     break;
+                case "ADD":
+                    string rfid = cmd.Substring(3, cmd.Length - 4);
+                    Korisnik noviKorisnik = new Korisnik
+                    {
+                        Ime = NewUserTempData.ime,
+                        RFID = rfid,
+                        Pristup = NewUserTempData.pristup
+                    };
+                    List<Korisnik> korisnici = db.Korisniks.ToList();
+                    bool add = true;
+                    foreach (Korisnik k in korisnici)
+                        if (k.RFID == noviKorisnik.RFID)
+                            add = false;
+                    if (add)
+                    {
+                        db.Korisniks.Add(noviKorisnik);
+                        db.SaveChanges();
+                        MessageBox.Show("Dodat je novi korisnik.", "Dodato", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        MessageBox.Show("Ta kartica vec postoji u bazi podataka.", "Nije dodato", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
             }
         }
 
@@ -162,7 +184,7 @@ namespace MiksRadarDesktop
                 consoleBox.AppendText(DateTime.Now + " -- Prijava RFID tagom: " + tag + ". Korisnik: " + korisnik.Ime + ". PRISTUP ODOBREN\n");
                 consoleBox.ScrollToCaret();
             }
-            else if(korisnik!=null && !korisnik.Pristup)
+            else if (korisnik != null && !korisnik.Pristup)
             {
                 db.Prijavas.Add(new Prijava
                 {

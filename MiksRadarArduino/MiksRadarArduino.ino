@@ -25,6 +25,7 @@ RFID rfid(RFID_PIN_SDA, RFID_PIN_RST);
 Servo servo;
 
 String state;
+String previousState;
 int servoAngle = 90;
 bool servoRight = true;
 
@@ -70,6 +71,15 @@ void loop()
     displayString = "";
   }
 
+  if (timePreviousLed > 0)
+    {
+      if (millis() - timePreviousLed > 1000)
+      {
+        timePreviousLed = 0;
+        digitalWrite(LED_GREEN, LOW);
+      }
+    }
+  
   //Ukoliko je uspostavljena veza preko serijskog porta ali nije izvrsena autorizacija
   if (state == "wait")
   {
@@ -84,7 +94,7 @@ void loop()
       timePreviousRfid = millis();
     }
   }
-  else if (state == "play")
+  else if (state == "play" || previousState=="play")
   {
     int buttonState=digitalRead(BUTTON);
     if(buttonStatePrevious==1 && buttonState==0){
@@ -96,14 +106,6 @@ void loop()
       lcd.print("Zaustavljen");
     }
     buttonStatePrevious = buttonState;
-    if (timePreviousLed > 0)
-    {
-      if (millis() - timePreviousLed > 1000)
-      {
-        timePreviousLed = 0;
-        digitalWrite(LED_GREEN, LOW);
-      }
-    }
     if (millis() - timePreviousServo > SERVO_DELAY)
     {
       if (servoRight)
@@ -129,7 +131,7 @@ void loop()
       Serial.println("RES"+String(servoAngle)+":"+String(distance));
       timePreviousServo = millis();
     }
-  }else if(state=="pause"){
+  }else if(state=="pause" || previousState=="pause"){
     int buttonState=digitalRead(BUTTON);
     if(buttonStatePrevious==1 && buttonState==0){
       state="play";
@@ -140,6 +142,21 @@ void loop()
       lcd.print("Pokrenut");
     }
     buttonStatePrevious = buttonState;
+  }
+
+  if(state=="add"){
+    String tag = rfid.readTag();
+    if (tag != "None")
+    {
+      Serial.println("ADD" + tag);
+      state=previousState;
+      previousState="";
+      lcd.clear();
+      lcd.print("Kartica ocitana");
+      tone(BUZZER, 740, 300);
+      digitalWrite(LED_GREEN, HIGH);
+      timePreviousLed = millis();
+    }
   }
 
   if (stringComplete)
@@ -238,5 +255,12 @@ void executeCommand()
     lcd.print("Radar");
     lcd.setCursor(0,1);
     lcd.print("Pokrenut");
+  }else if(inputString.startsWith("ADD")){
+    previousState=state;
+    state="add";
+    lcd.clear();
+    lcd.print("Skenirajte");
+    lcd.setCursor(0, 1);
+    lcd.print("novu karticu");
   }
 }
